@@ -1,0 +1,16 @@
+DAQ:
+  x-piezo:
+    port: 1
+    calibration: # Convert from Volts to the units of the actuator
+      units: um
+      slope: 0.1
+      offset: 0
+    limits: [0um, 10um]
+
+  y-piezo:
+    port: 2
+    calibration: # Convert from Volts to the units of the actuator
+      units: um
+      slope: 0.1
+      offset: 0
+    limits: [0um, 10um]

@@ -3,8 +3,8 @@
 
 """
 import numpy as np
-from lantz import Q_
-from . import DAQBase
+from PythonForTheLab import Q_
+from PythonForTheLab.Model.daq import DAQBase
 
 
 class DummyDaq(DAQBase):

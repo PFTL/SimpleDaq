@@ -1,4 +1,5 @@
 import numpy as np
+import yaml
 from time import time, sleep
 
 
@@ -67,3 +68,13 @@ class Experiment():
             self.xdata = np.roll(self.xdata, -1)
             self.xdata[-1] = time()-self.t0 #self.xdata[-2] + self.delta_x
             sleep(delay.m_as('s'))
+
+    def load_config(self, filename=None):
+        if filename is None:
+            filename = 'Config/experiment.yml'
+
+        with open(filename, 'r') as f:
+            d = yaml.load(f)
+
+        self.properties = d
+        self.properties['config_file'] = filename

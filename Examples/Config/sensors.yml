@@ -1,0 +1,3 @@
+DAQ:
+  Photodiode:
+    port: 1

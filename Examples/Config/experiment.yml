@@ -1,0 +1,14 @@
+init:
+  devices: devices.yml
+  actuators: actuators.yml
+  sensors: sensors.yml
+
+Scan:
+  axis:
+    x: x-piezo
+    y: y-piezo
+  range:
+    x: [10um, 20um, .1um]
+    y: [1um, 10um, 1um]
+  detector:
+    - Photodiode

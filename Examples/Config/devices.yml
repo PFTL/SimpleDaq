@@ -1,0 +1,8 @@
+DAQ:
+  name: Generic DAQ
+  type: daq
+  model: v1.0
+  number: 1
+  connection:
+    type: daq
+    port: 1

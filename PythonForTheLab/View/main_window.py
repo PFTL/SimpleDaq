@@ -2,7 +2,8 @@ import os
 import numpy as np
 import pyqtgraph as pg
 from PyQt4 import QtCore, QtGui, uic
-from lantz import Q_
+
+from PythonForTheLab import Q_
 
 from .config_window import ConfigWindow
 from .general_worker import WorkThread

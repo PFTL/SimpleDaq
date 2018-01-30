@@ -1,0 +1,6 @@
+numpy==1.14.0
+Pint==0.8.1
+pyqtgraph==0.10.0
+pyserial==3.4
+PyYAML==3.12
+stringparser==0.4.1

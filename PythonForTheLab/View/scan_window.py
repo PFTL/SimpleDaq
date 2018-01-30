@@ -2,7 +2,8 @@ import os
 import numpy as np
 import pyqtgraph as pg
 from PyQt4 import QtCore, QtGui, uic
-from lantz import Q_
+
+from PythonForTheLab import Q_
 from .general_worker import WorkThread
 
 
@@ -109,7 +110,7 @@ class ScanWindow(QtGui.QMainWindow):
 if __name__ == "__main__":
     import sys
     from PyQt4.Qt import QApplication
-    from Model.experiment.daq_control import Experiment
+    from PythonForTheLab.Model.experiment.daq_control import Experiment
 
     e = Experiment()
     session = {'port_monitor': 1,
