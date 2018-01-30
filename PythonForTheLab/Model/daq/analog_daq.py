@@ -13,7 +13,7 @@ class AnalogDaq(DAQBase):
         query_string = 'IN:CH{}'.format(port)
         value_bits = int(self.driver.query(query_string))
         print("Got value: {}".format(value_bits))
-        value_volts = value_bits/4095*Q_('3.3V')
+        value_volts = value_bits/1024*Q_('3.3V')
         return value_volts
 
     def set_analog_value(self, port, value):

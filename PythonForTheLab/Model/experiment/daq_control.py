@@ -1,6 +1,9 @@
+import importlib
 import numpy as np
 import yaml
 from time import time, sleep
+
+from PythonForTheLab import Q_
 
 
 class Experiment():
@@ -14,10 +17,6 @@ class Experiment():
         self.ydata_scan = np.zeros((0))
         self.running_scan = False
 
-    def load_daq(self, daq_model):
-        """ Loads a DAQ Model already initialized"""
-        self.daq = daq_model
-
     def read_analog(self, port):
         value = self.daq.get_analog_value(port)
         return value
@@ -27,12 +26,12 @@ class Experiment():
 
     def do_scan(self):
         self.running_scan = True
-        start = self.properties['scan_start']
-        stop = self.properties['scan_stop']
-        step = self.properties['scan_step']
-        port_in = self.properties['scan_port_in']
-        port_out = self.properties['scan_port_out']
-        delay = self.properties['scan_delay']
+        start = self.properties['Scan']['start']
+        stop = self.properties['Scan']['stop']
+        step = self.properties['Scan']['step']
+        port_in = self.properties['Scan']['port_in']
+        port_out = self.properties['Scan']['port_out']
+        delay = self.properties['Scan']['delay']
         self.stop_scan = False
 
         units = start.u
@@ -56,8 +55,8 @@ class Experiment():
         self.running_scan = False
 
     def monitor_signal(self):
-        delay = self.properties['time_resolution']
-        total_time = self.properties['total_time'].m_as('s')
+        delay = self.properties['Monitor']['time_resolution']
+        total_time = self.properties['Monitor']['total_time'].m_as('s')
         self.xdata = np.zeros((int(total_time/delay.m_as('s'))))
         self.delta_x = delay.m_as('s')
         self.ydata = np.zeros(int(total_time/delay.m_as('s')))
@@ -78,3 +77,62 @@ class Experiment():
 
         self.properties = d
         self.properties['config_file'] = filename
+        self.properties['Scan']['start'] = Q_(self.properties['Scan']['start'])
+        self.properties['Scan']['stop'] = Q_(self.properties['Scan']['stop'])
+        self.properties['Scan']['step'] = Q_(self.properties['Scan']['step'])
+        self.properties['Scan']['delay'] = Q_(self.properties['Scan']['delay'])
+        self.properties['Scan']['refresh_time'] = Q_(self.properties['Scan']['refresh_time'])
+
+        self.properties['Monitor']['time_resolution'] = Q_(self.properties['Monitor']['time_resolution'])
+        self.properties['Monitor']['refresh_time'] = Q_(self.properties['Monitor']['refresh_time'])
+        self.properties['Monitor']['total_time'] = Q_(self.properties['Monitor']['total_time'])
+
+    def load_devices(self, filename=None):
+        if filename is None:
+            if 'devices' in self.properties['init']:
+                filename = self.properties['init']['devices']
+            else:
+                raise Exception("Devices file not defined")
+        with open(filename, 'r') as f:
+            d = yaml.load(f)
+
+        self.devices = d
+
+    def load_sensors(self, filename=None):
+        if filename is None:
+            if 'sensors' in self.properties['init']:
+                filename = self.properties['init']['sensors']
+            else:
+                raise Exception("Sensors file not defined")
+
+        with open(filename, 'r') as f:
+            d = yaml.load(f)
+
+        self.sensors = d
+
+    def load_actuators(self, filename=None):
+        if filename is None:
+            if 'actuators' in self.properties['init']:
+                filename = self.properties['init']['actuators']
+            else:
+                raise Exception("Actuators file not defined")
+
+        with open(filename, 'r') as f:
+            d = yaml.load(f)
+
+        self.actuators = d
+
+    def load_daq(self, daq_model=None):
+        """ Loads a DAQ Model already initialized or loads from yaml specifications"""
+        if daq_model is None:
+            if 'DAQ' in self.devices:
+                if 'driver' in self.devices['DAQ']:
+                    d = self.devices['DAQ']['driver'].split('/')
+                    driver_class = getattr(importlib.import_module(d[0]), d[1])
+                    self.daq = driver_class(self.devices['DAQ']['connection']['port'])
+                else:
+                    raise Exception("Driver for DAQ not defined in config file")
+            else:
+                raise Exception("DAQ device not defined in devices")
+        else:
+            self.daq = daq_model

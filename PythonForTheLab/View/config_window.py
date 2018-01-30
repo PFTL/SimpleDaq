@@ -15,10 +15,10 @@ class ConfigWindow(QtGui.QDialog):
         uic.loadUi(os.path.join(p, 'GUI/config_window.ui'), self)
         self.buttonBox.accepted.connect(self.apply_new_values)
 
-        self.portLine.setText('{}'.format(experiment.properties['port_monitor']))
-        self.timeResolutionLine.setText('{:~}'.format(experiment.properties['time_resolution']))
-        self.refreshTimeLine.setText('{:~}'.format(experiment.properties['refresh_time']))
-        self.totalTimeLine.setText('{:~}'.format(experiment.properties['total_time']))
+        self.portLine.setText('{}'.format(experiment.properties['Monitor']['port']))
+        self.timeResolutionLine.setText('{:~}'.format(experiment.properties['Monitor']['time_resolution']))
+        self.refreshTimeLine.setText('{:~}'.format(experiment.properties['Monitor']['refresh_time']))
+        self.totalTimeLine.setText('{:~}'.format(experiment.properties['Monitor']['total_time']))
 
     def apply_new_values(self):
         new_values = {'port_monitor': int(self.portLine.text()),

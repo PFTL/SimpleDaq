@@ -37,13 +37,13 @@ class ScanWindow(QtGui.QMainWindow):
         self.startButton.clicked.connect(self.start_scan)
         self.stopButton.clicked.connect(self.stop_scan)
 
-        self.outPortLine.setText('{}'.format(self.experiment.properties['scan_port_out']))
-        self.outStartLine.setText('{:~}'.format(self.experiment.properties['scan_start']))
-        self.outStopLine.setText('{:~}'.format(self.experiment.properties['scan_stop']))
-        self.outStepLine.setText('{:~}'.format(self.experiment.properties['scan_step']))
+        self.outPortLine.setText('{}'.format(self.experiment.properties['Scan']['port_out']))
+        self.outStartLine.setText('{:~}'.format(self.experiment.properties['Scan']['start']))
+        self.outStopLine.setText('{:~}'.format(self.experiment.properties['Scan']['stop']))
+        self.outStepLine.setText('{:~}'.format(self.experiment.properties['Scan']['step']))
 
-        self.inPortLine.setText('{}'.format(self.experiment.properties['scan_port_in']))
-        self.inDelayLine.setText('{:~}'.format(self.experiment.properties['scan_delay']))
+        self.inPortLine.setText('{}'.format(self.experiment.properties['Scan']['port_in']))
+        self.inDelayLine.setText('{:~}'.format(self.experiment.properties['Scan']['delay']))
 
         self.running_scan = False
 
@@ -56,23 +56,25 @@ class ScanWindow(QtGui.QMainWindow):
             return
 
         self.running_scan = True
-        self.experiment.properties.update({
-            'scan_port_out': int(self.outPortLine.text()),
-            'scan_start': Q_(self.outStartLine.text()),
-            'scan_stop': Q_(self.outStopLine.text()),
-            'scan_step': Q_(self.outStepLine.text()),
-            'scan_port_in': int(self.inPortLine.text()),
-            'scan_delay': Q_(self.inDelayLine.text()),
+        self.experiment.properties['Scan'].update({
+            'port_out': int(self.outPortLine.text()),
+            'start': Q_(self.outStartLine.text()),
+            'stop': Q_(self.outStopLine.text()),
+            'step': Q_(self.outStepLine.text()),
+            'port_in': int(self.inPortLine.text()),
+            'delay': Q_(self.inDelayLine.text()),
         })
-        xlabel = self.experiment.properties['scan_port_out']
-        units = self.experiment.properties['scan_start'].u
+        xlabel = self.experiment.properties['Scan']['port_out']
+        units = self.experiment.properties['Scan']['start'].u
+        ylabel = self.experiment.properties['Scan']['port_in']
 
         self.main_plot.setLabel('bottom', 'Port: {}'.format(xlabel),
                                 units=units)
+        self.main_plot.setLabel('left', 'Port: {}'.format(ylabel), units='V')
 
         self.worker_thread = WorkThread(self.experiment.do_scan)
         self.worker_thread.start()
-        self.update_timer.start(self.experiment.properties['refresh_time'].m_as('ms'))
+        self.update_timer.start(self.experiment.properties['Scan']['refresh_time'].m_as('ms'))
 
     def update_scan(self):
         self.xdata = self.experiment.xdata_scan

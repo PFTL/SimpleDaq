@@ -48,7 +48,7 @@ class SimpleDaq():
 
 if __name__ == "__main__":
     from time import sleep
-    d = SimpleDaq('/dev/ttyACM1')
+    d = SimpleDaq('/dev/ttyACM0')
     # input('Waiting to ready')
     print(d.query('IDN'))
     d.write('OUT:CH0:4000')

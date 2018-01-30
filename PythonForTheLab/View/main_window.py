@@ -41,8 +41,8 @@ class MainWindow(QtGui.QMainWindow):
         self.actionScan.triggered.connect(self.scan_window.show)
 
     def update_properties(self, props):
-        self.experiment.properties = props
-        self.delayLine.setText('{:~}'.format(self.experiment.properties['time_resolution']))
+        self.experiment.properties['Monitor'] = props
+        self.delayLine.setText('{:~}'.format(self.experiment.properties['Monitor']['time_resolution']))
 
     def start_monitor(self):
         if self.running_monitor:
@@ -53,7 +53,7 @@ class MainWindow(QtGui.QMainWindow):
         self.experiment.properties['time_resolution'] = delay
         self.worker_thread = WorkThread(self.experiment.monitor_signal)
         self.worker_thread.start()
-        self.update_timer.start(self.experiment.properties['refresh_time'].m_as('ms'))
+        self.update_timer.start(self.experiment.properties['Monitor']['refresh_time'].m_as('ms'))
 
     def stop_monitor(self):
         if not self.running_monitor:

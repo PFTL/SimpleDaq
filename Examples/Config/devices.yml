@@ -1,8 +1,9 @@
 DAQ:
-  name: Generic DAQ
+  name: Simple DAQ
   type: daq
   model: v1.0
   number: 1
+  driver: PythonForTheLab.Model.daq/AnalogDaq
   connection:
-    type: daq
-    port: 1
+    port: /dev/ttyACM0
+

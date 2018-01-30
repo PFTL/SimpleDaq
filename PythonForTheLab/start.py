@@ -26,6 +26,7 @@ session = {'port_monitor': 1,
            'scan_port_in': 2,
            'scan_delay': Q_('10ms'),
            }
+
 e.properties = session
 e.load_daq(a)
 ap = QApplication(sys.argv)
