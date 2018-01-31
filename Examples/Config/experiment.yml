@@ -1,7 +1,8 @@
-init:
-  devices: Config/devices.yml
-  actuators: Config/actuators.yml
-  sensors: Config/sensors.yml
+User: me
+DAQ:
+  name: DummyDaq
+  port: /dev/ttyACM0
+  model: v1.0
 
 Scan:
   port_in: 0

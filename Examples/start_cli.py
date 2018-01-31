@@ -6,9 +6,6 @@ from PythonForTheLab.Model import Experiment
 
 e = Experiment()
 e.load_config('Config/experiment.yml')
-e.load_devices()
-e.load_actuators()
-e.load_sensors()
 e.load_daq()
 
 

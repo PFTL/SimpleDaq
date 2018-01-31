@@ -125,14 +125,21 @@ class Experiment():
     def load_daq(self, daq_model=None):
         """ Loads a DAQ Model already initialized or loads from yaml specifications"""
         if daq_model is None:
-            if 'DAQ' in self.devices:
-                if 'driver' in self.devices['DAQ']:
-                    d = self.devices['DAQ']['driver'].split('/')
-                    driver_class = getattr(importlib.import_module(d[0]), d[1])
-                    self.daq = driver_class(self.devices['DAQ']['connection']['port'])
+            if 'DAQ' in self.properties:
+                if self.properties['DAQ']['name'] == 'DummyDaq':
+                    from PythonForTheLab.Model.daq import DummyDaq
+                    self.daq = DummyDaq()
+
+                elif self.properties['DAQ']['name'] == 'RealDaq':
+                    from PythonForTheLab.Model.daq import AnalogDaq
+                    port = self.properties['DAQ']['port']
+                    self.daq = AnalogDaq(port)
+
                 else:
-                    raise Exception("Driver for DAQ not defined in config file")
+                    filename = self.properties['config_file']
+                    raise Exception('The daq specified in {} does not exist in this program'.format(filename))
             else:
-                raise Exception("DAQ device not defined in devices")
+                filename = self.properties['config_file']
+                raise Exception("No DAQ specified in {}".format(filename))
         else:
             self.daq = daq_model
