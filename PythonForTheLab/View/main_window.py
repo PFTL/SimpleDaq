@@ -78,3 +78,4 @@ class MainWindow(QtGui.QMainWindow):
     #     reply = QtGui.QMessageBox.question(self, 'Message',
     #                                        quit_msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
     #     event.accept()
+
