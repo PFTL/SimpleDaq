@@ -1,3 +1,8 @@
+"""
+    start_gui
+
+"""
+
 import sys
 from PyQt4.Qt import QApplication
 
