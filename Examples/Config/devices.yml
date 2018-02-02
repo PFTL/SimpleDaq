@@ -1,5 +1,6 @@
 DAQ:
-  name: Simple DAQ
+#  name: RealDAQ
+  name: DummyDaq
   type: daq
   model: v1.0
   number: 1

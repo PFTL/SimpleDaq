@@ -22,10 +22,8 @@ class ScanWindow(QtGui.QMainWindow):
         self.update_timer.timeout.connect(self.update_scan)
 
         self.main_plot = pg.PlotWidget()
-        self.plot_layout =QtGui.QHBoxLayout()
-        self.plot_layout.addWidget(self.main_plot)
-        self.plotWidget.setLayout(self.plot_layout)
-        # self.centralwidget.layout.addWidget(self.main_plot)
+        layout = self.centralwidget.layout()
+        layout.addWidget(self.main_plot)
         self.ydata = np.zeros((0))
         self.xdata = np.zeros((0))
         self.p = self.main_plot.plot(self.xdata, self.ydata)
@@ -73,6 +71,8 @@ class ScanWindow(QtGui.QMainWindow):
         self.main_plot.setLabel('left', 'Port: {}'.format(ylabel), units='V')
 
         self.worker_thread = WorkThread(self.experiment.do_scan)
+        self.worker_thread.finished.connect(self.worker_thread.deleteLater)
+        self.worker_thread.finished.connect(self.stop_scan)
         self.worker_thread.start()
         self.update_timer.start(self.experiment.properties['Scan']['refresh_time'].m_as('ms'))
 
@@ -86,10 +86,16 @@ class ScanWindow(QtGui.QMainWindow):
             self.stop_scan()
 
     def stop_scan(self):
+        if not self.running_scan:
+            return
+
         print('Stopping Scan')
+        if self.worker_thread.isRunning():
+            self.worker_thread.quit()
         self.running_scan = False
         self.experiment.stop_scan = True
         self.update_timer.stop()
+        self.update_scan()
 
     def save_data(self):
         self.directory = str(QtGui.QFileDialog.getExistingDirectory(self, "Select Directory", self.directory))

@@ -1,4 +1,6 @@
 User: me
+init:
+  devices: Config/devices.yml
 DAQ:
   name: DummyDaq
   port: /dev/ttyACM0
