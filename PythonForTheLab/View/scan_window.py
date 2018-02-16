@@ -47,7 +47,6 @@ class ScanWindow(QtGui.QMainWindow):
 
         self.action_Save.triggered.connect(self.save_data)
 
-
     def start_scan(self):
         if self.running_scan:
             print('Scan already running')
