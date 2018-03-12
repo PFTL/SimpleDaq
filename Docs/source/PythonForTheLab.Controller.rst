@@ -1,17 +1,9 @@
-PythonForTheLab\.Controller package
-===================================
+PythonForTheLab\.Controller
+===========================
 
-Submodules
-----------
-
-PythonForTheLab\.Controller\.simple\_daq module
------------------------------------------------
-
-.. automodule:: PythonForTheLab.Controller.simple_daq
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+One of the building blocks of the MVC design pattern. Controller hosts all the packages related to
+communication with devices. Each element should reflect exactly what a device is capable of doing and
+not the imposed logic from the experimentor. Loops, etc. should be placed within the Models.
 
 Module contents
 ---------------

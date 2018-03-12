@@ -1,54 +1,21 @@
-PythonForTheLab\.View package
-=============================
-
-Submodules
-----------
-
-PythonForTheLab\.View\.config\_window module
---------------------------------------------
+PythonForTheLab\.View
+=====================
+All the files related to the GUI should be placed within the View package. This is the third leg of the
+MVC design pattern. If the Model is properly built, the Views are relatively simple PyQt objects. It is
+important to point out that if there is any logic of the experiment that goes into the view, the code is
+going to become harder to share, unless it is for the exact same purpose.
 
 .. automodule:: PythonForTheLab.View.config_window
     :members:
     :undoc-members:
     :show-inheritance:
 
-PythonForTheLab\.View\.general\_worker module
----------------------------------------------
-
 .. automodule:: PythonForTheLab.View.general_worker
     :members:
     :undoc-members:
     :show-inheritance:
 
-PythonForTheLab\.View\.main\_window module
-------------------------------------------
-
-.. automodule:: PythonForTheLab.View.main_window
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-PythonForTheLab\.View\.scan\_window module
-------------------------------------------
-
 .. automodule:: PythonForTheLab.View.scan_window
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-PythonForTheLab\.View\.simple\_open\_window module
---------------------------------------------------
-
-.. automodule:: PythonForTheLab.View.simple_open_window
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: PythonForTheLab.View
     :members:
     :undoc-members:
     :show-inheritance:

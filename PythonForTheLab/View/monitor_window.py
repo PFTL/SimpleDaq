@@ -1,3 +1,12 @@
+"""
+Monitor Window
+==============
+Window to display a plot that updates over time at a given rate. The only parameter that can be changed
+within the window is the delay between two consecutive reads. To change other parameters the user needs to
+open the configuration window. It may not be the most intuitive behavior, but helps teaching how to open a
+dialog and connect custom signals.
+"""
+
 import os
 import numpy as np
 import pyqtgraph as pg
@@ -9,7 +18,8 @@ from .config_window import ConfigWindow
 from .general_worker import WorkThread
 from .scan_window import ScanWindow
 
-class MainWindow(QtGui.QMainWindow):
+
+class MonitorWindow(QtGui.QMainWindow):
     def __init__(self, experiment, parent=None):
         super().__init__(parent)
 
@@ -41,10 +51,15 @@ class MainWindow(QtGui.QMainWindow):
         self.actionScan.triggered.connect(self.scan_window.show)
 
     def update_properties(self, props):
+        """Method triggered when the signal for updating parameters is triggered.
+        """
         self.experiment.properties['Monitor'] = props
         self.delayLine.setText('{:~}'.format(self.experiment.properties['Monitor']['time_resolution']))
 
     def start_monitor(self):
+        """Starts a  monitor in a separated Worker Thread. There will be a delay for the update of the plot.
+        """
+
         if self.running_monitor:
             print('Monitor already running')
             return
@@ -56,6 +71,8 @@ class MainWindow(QtGui.QMainWindow):
         self.update_timer.start(self.experiment.properties['Monitor']['refresh_time'].m_as('ms'))
 
     def stop_monitor(self):
+        """Stops the monitor and terminates the working thread.
+        """
         if not self.running_monitor:
             print('Monitor not running')
             return
@@ -65,6 +82,8 @@ class MainWindow(QtGui.QMainWindow):
         self.running_monitor = False
 
     def update_monitor(self):
+        """This method is called through a timer. It updates the data displayed in the main plot.
+        """
         self.xdata = self.experiment.xdata
         self.ydata = self.experiment.ydata
 
