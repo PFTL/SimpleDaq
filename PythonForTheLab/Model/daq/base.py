@@ -1,6 +1,8 @@
 """
-    Base class for the DAQ objects. It keeps tracks of the functions every new model should implement in order to be
-    downstream compliant.
+Base DAQ
+========
+Base class for the DAQ objects. It keeps track of the functions that every new model should implement.
+This helps keeping the code organized and to maintain downstream compliancy.
 
 """
 

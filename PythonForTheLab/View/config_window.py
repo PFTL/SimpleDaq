@@ -1,3 +1,9 @@
+"""
+Configuration Window
+====================
+Simple QDialog that provides a form to update some values for the monitor.
+
+"""
 import os
 import numpy as np
 import pyqtgraph as pg
@@ -8,7 +14,8 @@ from PythonForTheLab import Q_
 
 class ConfigWindow(QtGui.QDialog):
     propertiesChanged = QtCore.pyqtSignal([dict])
-
+    """Custom signal for informing the main window that there are new parameters available.
+    """
     def __init__(self, experiment, parent=None):
         super().__init__(parent=parent)
         p = os.path.dirname(__file__)
@@ -21,6 +28,9 @@ class ConfigWindow(QtGui.QDialog):
         self.totalTimeLine.setText('{:~}'.format(experiment.properties['Monitor']['total_time']))
 
     def apply_new_values(self):
+        """Formats the values in the form and emits a custom signal *propertiesChanged* including a
+        dictionary of the values that are provided (changed or not).
+        """
         new_values = {'port_monitor': int(self.portLine.text()),
                       'time_resolution': Q_(self.timeResolutionLine.text()),
                       'refresh_time': Q_(self.refreshTimeLine.text()),

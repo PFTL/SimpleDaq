@@ -1,3 +1,16 @@
+"""
+Simple DAQ Controller
+=====================
+
+Python For The Lab revolves around controlling a simple DAQ device built on top of an Arduino.
+The DAQ device is capable of generating up to two analog outputs in the range 0-3.3V and to acquire
+several analog inputs.
+
+Because of the pedagogy of the course Python for the Lab, it was assumed that the device can generate
+value by value and not a sequence. This forces the developer to think on how to implement a solution
+purely on Python.
+"""
+
 import serial
 from time import sleep, time
 

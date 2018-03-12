@@ -1,3 +1,10 @@
+"""
+Experiment Model
+================
+Building a model for the experiment allows developers to have a clear picture of the logic of their
+experiments. It allows to build simple GUIs around them and to easily share the code with other users.
+
+"""
 import os
 import numpy as np
 import yaml
@@ -7,6 +14,8 @@ from PythonForTheLab import Q_
 
 
 class Experiment():
+    """Class for performing a measurement of an I-V curve of a light emitting photodiode (LED).
+    """
     def __init__(self):
         self.daq = None
         self.properties = {}
@@ -18,6 +27,11 @@ class Experiment():
         self.running_scan = False
 
     def read_analog(self, port):
+        """Re-implements the function as provided by the model.
+
+        :param int port: Port to read
+        :return Quantity: The value read by the device model.
+        """
         value = self.daq.get_analog_value(port)
         return value
 
@@ -25,6 +39,9 @@ class Experiment():
         return self.daq.get_digital_value(port)
 
     def do_scan(self):
+        """Does a scan of an analog output while recording an analog input. It doesn't take any arguments,
+        it relies on having the proper properties set in the dictionary properties['Scan']
+        """
         self.running_scan = True
         start = self.properties['Scan']['start']
         stop = self.properties['Scan']['stop']
@@ -36,7 +53,6 @@ class Experiment():
 
         units = start.u
         stop = stop.to(units)
-        data = []
         num_points = (stop-start)/step
         num_points = int(num_points.m_as(''))
         scan = np.linspace(start, stop, num_points+1)
@@ -55,6 +71,9 @@ class Experiment():
         self.running_scan = False
 
     def monitor_signal(self):
+        """Monitors a signal in a specific port. Doesn't take any parameters, it assumes there is
+        well-configured dictionary called self.properties['Monitor']
+        """
         delay = self.properties['Monitor']['time_resolution']
         total_time = self.properties['Monitor']['total_time'].m_as('s')
         self.xdata = np.zeros((int(total_time/delay.m_as('s'))))
@@ -69,6 +88,10 @@ class Experiment():
             sleep(delay.m_as('s'))
 
     def load_config(self, filename=None):
+        """Loads the configuration file to generate the properties of the Scan and Monitor.
+
+        :param str filename: Path to the filename. Defaults to Config/experiment.yml if not specified.
+        """
         if filename is None:
             filename = 'Config/experiment.yml'
 
@@ -88,6 +111,9 @@ class Experiment():
         self.properties['Monitor']['total_time'] = Q_(self.properties['Monitor']['total_time'])
 
     def load_devices(self, filename=None):
+        """Load devices is not used in the Python for the Lab book, but is a handy procedure to work with
+        a more sophisticated logic of devices, sensors and actuators.
+        """
         if filename is None:
             if 'devices' in self.properties['init']:
                 filename = self.properties['init']['devices']
@@ -99,6 +125,9 @@ class Experiment():
         self.devices = d
 
     def load_sensors(self, filename=None):
+        """Load sensors is not used in the Python for the Lab book, but is a handy procedure to work with
+            a more sophisticated logic of devices, sensors and actuators.
+        """
         if filename is None:
             if 'sensors' in self.properties['init']:
                 filename = self.properties['init']['sensors']
@@ -111,6 +140,9 @@ class Experiment():
         self.sensors = d
 
     def load_actuators(self, filename=None):
+        """Load devices is not used in the Python for the Lab book, but is a handy procedure to work with
+            a more sophisticated logic of devices, sensors and actuators.
+        """
         if filename is None:
             if 'actuators' in self.properties['init']:
                 filename = self.properties['init']['actuators']
@@ -123,7 +155,12 @@ class Experiment():
         self.actuators = d
 
     def load_daq(self, daq_model=None):
-        """ Loads a DAQ Model already initialized or loads from yaml specifications"""
+        """ Loads a DAQ Model already initialized or loads from yaml specifications. The DAQ that can
+        be provided through the YAML are 'DummyDaq' and 'RealDaq'. There are no limitations regarding
+        an already initialized DAQ provided that follows the Daq Model.
+
+        :param daq_model: it can be a model already initailized. If not provided, loads the default.
+        """
         if daq_model is None:
             if 'DAQ' in self.properties:
                 if self.properties['DAQ']['name'] == 'DummyDaq':
@@ -145,6 +182,12 @@ class Experiment():
             self.daq = daq_model
 
     def save_scan_data(self, file_path):
+        """Saves the data from the scan into the specified file. If the file already exists, it will
+        automatically append a number before the extension.
+
+        :param str file_path: Full path to the file. It should end with an extension (a dot and 3
+        letters).
+        """
         i = 0
         ext = file_path[-4:] # Get the file extension (it assumes is a dot and three letters)
         filename = file_path[:-4]

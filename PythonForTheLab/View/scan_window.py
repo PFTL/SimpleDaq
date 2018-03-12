@@ -1,3 +1,12 @@
+"""
+Scan Window
+===========
+This is the core window for the Experiment. It implements a form where the user can change the input port,
+and delay between measurements. It has control also over the output port and range.
+
+.. todo:: Add a menu for opening the monitor.
+
+"""
 import os
 import numpy as np
 import pyqtgraph as pg
@@ -48,6 +57,12 @@ class ScanWindow(QtGui.QMainWindow):
         self.action_Save.triggered.connect(self.save_data)
 
     def start_scan(self):
+        """Starts the scan as defined in the Experiment model. Gets the parameters from the GUI, i.e.:
+        it gets the input port and delay, the output port and range.
+        It updates the plot with the proper units and ranges and creates a worker thread for running the
+        scan.
+        A timer will be responsible for updating the values into the plot.
+        """
         if self.running_scan:
             print('Scan already running')
             return
@@ -76,6 +91,11 @@ class ScanWindow(QtGui.QMainWindow):
         self.update_timer.start(self.experiment.properties['Scan']['refresh_time'].m_as('ms'))
 
     def update_scan(self):
+        """Updates the plot with the available data in the experiment model. This method is triggered
+        through a timer that starts with the start_scan method.
+        The method also monitors whether the scan is still running or not. If it has stopped it will update
+        the GUI in order to know it.
+        """
         self.xdata = self.experiment.xdata_scan
         self.ydata = self.experiment.ydata_scan
 
@@ -85,6 +105,10 @@ class ScanWindow(QtGui.QMainWindow):
             self.stop_scan()
 
     def stop_scan(self):
+        """Stops the scan if it is running. It sets the proper variable to the experiment model in order
+        to finish it in an elegant way. It stops the update timer and calls the update plot one last time
+        in order to display the very last available data.
+        """
         if not self.running_scan:
             return
 
@@ -97,6 +121,9 @@ class ScanWindow(QtGui.QMainWindow):
         self.update_scan()
 
     def save_data(self):
+        """Saves the data to disk. It opens a Dialog for selecting the directory. The default filename for
+        the data is 'scan_data.dat'. The experiment model takes care of handling the saving itself.
+        """
         self.directory = str(QtGui.QFileDialog.getExistingDirectory(self, "Select Directory", self.directory))
         filename = 'scan_data.dat'
         file = os.path.join(self.directory, filename)
