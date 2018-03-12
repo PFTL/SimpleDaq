@@ -12,7 +12,10 @@ class SimpleDaq():
                 'write_timeout': 1,
                 'read_timeout': 1,
                 }
+    """Dictionary storing the defaults to communicate through the serial port.
+    """
     rsc = None
+    """Resource. It is the actual library providing low level communication. """
 
     def __init__(self, port):
         """ Automatically initializes the communication with the device.
@@ -35,8 +38,9 @@ class SimpleDaq():
 
     def set_analog_value(self, port, value):
         """ Sets a voltage to an output port.
-        :param port (int): Port number. Range depends on device
-        :param value (Quantity): The output value in Volts.
+
+        :param int port: Port number. Range depends on device
+        :param Quantity value: The output value in Volts.
         """
 
         value = int(value.m_as('V')/3.3*4095)
@@ -51,13 +55,17 @@ class SimpleDaq():
 
     def query(self, message):
         """Sends a message to the devices an reads the output.
+
+        :param str message: Message sent to the device. It should generate an output, or it will timeout waiting to read from it.
+        :return str: The message read from the device
         """
         self.write(message)
         return self.read()
 
     def write(self, message):
         """ Writes a message to the device using the DEFAULT end of line and encoding.
-        :param message (str): The message to send to the device
+
+        :param str message: The message to send to the device
         """
         if self.rsc is None:
             raise Warning("Trying to write to device before initializing")
@@ -67,7 +75,8 @@ class SimpleDaq():
 
     def read(self):
         """ Reads from the device using the DEFAUTLS end of line and encoding.
-        :return (str): The message received from the device.
+
+        :return str: The message received from the device.
         """
         line = "".encode(self.DEFAULTS['encoding'])
         read_termination = self.DEFAULTS['read_termination'].encode(self.DEFAULTS['encoding'])
