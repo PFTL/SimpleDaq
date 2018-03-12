@@ -98,19 +98,10 @@ class ScanWindow(QtGui.QMainWindow):
 
     def save_data(self):
         self.directory = str(QtGui.QFileDialog.getExistingDirectory(self, "Select Directory", self.directory))
-        i = 0
-        filename = 'scan_data_'
-        while os.path.isfile(os.path.join(self.directory, '%s%i.dat' % (filename, i))):
-            i += 1
-        file = os.path.join(self.directory, '%s%i.dat' % (filename, i))
-        header = "# Data saved by Python For the Lab\n"
-        header += "# First Column X-Axis device {}\n".format(self.experiment.properties['scan_port_out'])
-        header += "# Second Column Y-Axis device {}\n".format(self.experiment.properties['scan_port_in'])
+        filename = 'scan_data.dat'
+        file = os.path.join(self.directory, filename)
 
-        with open(file, 'wb') as f:
-            f.write(header.encode('ascii'))
-            data = np.vstack((self.xdata, self.ydata))
-            np.savetxt(f, data.T, fmt='%7.5f')
+        self.experiment.save_scan_data(file)
 
 
 

@@ -1,4 +1,4 @@
-import importlib
+import os
 import numpy as np
 import yaml
 from time import time, sleep
@@ -143,3 +143,22 @@ class Experiment():
                 raise Exception("No DAQ specified in {}".format(filename))
         else:
             self.daq = daq_model
+
+    def save_scan_data(self, file_path):
+        i = 0
+        ext = file_path[-4:] # Get the file extension (it assumes is a dot and three letters)
+        filename = file_path[:-4]
+        while os.path.exists(file_path):
+            file_path = filename + '_' + str(i) + ext
+            i += 1
+
+        header = "# Data saved by Python For the Lab\n"
+        header += "# First Column X-Axis port: {}\n".format(self.properties['Scan']['port_out'])
+        header += "# Second Column Y-Axis port: {}\n".format(self.properties['Scan']['port_in'])
+
+        with open(file_path, 'wb') as f:
+            f.write(header.encode('ascii'))
+            data = np.vstack((self.xdata_scan, self.ydata_scan))
+            np.savetxt(f, data.T, fmt='%7.5f')
+
+        print('Data saved to {}'.format(file_path))
