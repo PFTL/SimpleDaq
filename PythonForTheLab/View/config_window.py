@@ -5,14 +5,12 @@ Simple QDialog that provides a form to update some values for the monitor.
 
 """
 import os
-import numpy as np
-import pyqtgraph as pg
-from PyQt4 import QtCore, QtGui, uic
+from PyQt5 import QtCore, QtWidgets, QtGui, uic
 
 from PythonForTheLab import Q_
 
 
-class ConfigWindow(QtGui.QDialog):
+class ConfigWindow(QtWidgets.QDialog):
     propertiesChanged = QtCore.pyqtSignal([dict])
     """Custom signal for informing the main window that there are new parameters available.
     """
@@ -39,9 +37,9 @@ class ConfigWindow(QtGui.QDialog):
 
 if __name__ == "__main__":
     import sys
-    from PyQt4.Qt import QApplication
+    from PyQt5.Qt import QApplication
     ap = QApplication(sys.argv)
-    from Model.experiment.daq_control import Experiment
+    from PythonForTheLab.Model.experiment.daq_control import Experiment
     e = Experiment()
     session = {'port_monitor': 1,
                'time_resolution': Q_('1ms'),

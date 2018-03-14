@@ -10,13 +10,13 @@ and delay between measurements. It has control also over the output port and ran
 import os
 import numpy as np
 import pyqtgraph as pg
-from PyQt4 import QtCore, QtGui, uic
+from PyQt5 import QtCore, QtGui, uic, QtWidgets
 
 from PythonForTheLab import Q_
 from .general_worker import WorkThread
 
 
-class ScanWindow(QtGui.QMainWindow):
+class ScanWindow(QtWidgets.QMainWindow):
     def __init__(self, experiment, parent=None):
         super().__init__(parent)
 
@@ -37,10 +37,10 @@ class ScanWindow(QtGui.QMainWindow):
         self.xdata = np.zeros((0))
         self.p = self.main_plot.plot(self.xdata, self.ydata)
 
-        self.startButton = QtGui.QPushButton('&Start')
-        self.stopButton = QtGui.QPushButton('&Stop')
-        self.buttonBox.addButton(self.startButton, QtGui.QDialogButtonBox.ActionRole)
-        self.buttonBox.addButton(self.stopButton, QtGui.QDialogButtonBox.ActionRole)
+        self.startButton = QtWidgets.QPushButton('&Start')
+        self.stopButton = QtWidgets.QPushButton('&Stop')
+        self.buttonBox.addButton(self.startButton, QtWidgets.QDialogButtonBox.ActionRole)
+        self.buttonBox.addButton(self.stopButton, QtWidgets.QDialogButtonBox.ActionRole)
         self.startButton.clicked.connect(self.start_scan)
         self.stopButton.clicked.connect(self.stop_scan)
 
@@ -124,7 +124,7 @@ class ScanWindow(QtGui.QMainWindow):
         """Saves the data to disk. It opens a Dialog for selecting the directory. The default filename for
         the data is 'scan_data.dat'. The experiment model takes care of handling the saving itself.
         """
-        self.directory = str(QtGui.QFileDialog.getExistingDirectory(self, "Select Directory", self.directory))
+        self.directory = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Select Directory", self.directory))
         filename = 'scan_data.dat'
         file = os.path.join(self.directory, filename)
 
@@ -134,7 +134,7 @@ class ScanWindow(QtGui.QMainWindow):
 
 if __name__ == "__main__":
     import sys
-    from PyQt4.Qt import QApplication
+    from PyQt5.QtWidgets import QApplication
     from PythonForTheLab.Model.experiment.daq_control import Experiment
 
     e = Experiment()

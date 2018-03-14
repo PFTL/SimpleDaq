@@ -4,7 +4,7 @@
 """
 
 import sys
-from PyQt4.Qt import QApplication
+from PyQt5.QtWidgets import QApplication
 
 from PythonForTheLab.Model import Experiment
 from PythonForTheLab.View.scan_window import ScanWindow

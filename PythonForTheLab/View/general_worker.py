@@ -10,7 +10,7 @@ This may not be the correct way of doing things, as pointed out in this `blog po
 <https://mayaposch.wordpress.com/2011/11/01/how-to-really-truly-use-qthreads-the-full-explanation/>`_
 """
 
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 
 
 class WorkThread(QtCore.QThread):
