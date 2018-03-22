@@ -14,8 +14,9 @@ from PythonForTheLab.Model.daq import DAQBase
 class DummyDaq(DAQBase):
     serial_number = '1234ABC'
     """Fake serial number of the dummy device."""
-    def __init__(self):
-        super().__init__()
+    def __init__(self, port):
+        super().__init__(port=port)
+        self.port = port
         self.i = 0
 
     def idn(self):
@@ -38,3 +39,6 @@ class DummyDaq(DAQBase):
         :return bool: Value of the fake digital input port.
         """
         return np.random.random(1) > 0.5
+
+    def __str__(self):
+        return "DummyDaq"

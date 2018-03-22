@@ -135,7 +135,7 @@ class ScanWindow(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     import sys
     from PyQt5.QtWidgets import QApplication
-    from PythonForTheLab.Model.experiment.daq_control import Experiment
+    from PythonForTheLab.Model.experiment.IV_measurement import Experiment
 
     e = Experiment()
     session = {'port_monitor': 1,

@@ -21,7 +21,7 @@ class AnalogDaq(DAQBase):
 
         :param str port: Port where the device is hooked.
         """
-        super().__init__()
+        super().__init__(port=port)
         self.driver = SimpleDaq(port)
 
     def idn(self):
