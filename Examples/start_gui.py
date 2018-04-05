@@ -11,7 +11,6 @@ from PythonForTheLab.View.scan_window import ScanWindow
 
 e = Experiment()
 e.load_config('Config/experiment.yml')
-e.load_devices()
 e.load_daq()
 
 ap = QApplication(sys.argv)
