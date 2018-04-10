@@ -1,9 +1,11 @@
-User: me
+User:
+ name: me
 init:
   devices: Config/devices.yml
+
 DAQ:
   name: DummyDaq
-  port: /dev/ttyACM0
+  port: /dev/ttyACM1
   model: v1.0
 
 Scan:

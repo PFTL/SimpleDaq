@@ -20,8 +20,8 @@ class WorkThread(QtCore.QThread):
         self.args = args
         self.kwargs = kwargs
 
-    def __del__(self):
-        self.wait()
+    # def __del__(self):
+    #     self.wait()
 
     def run(self):
         self.function(*self.args,**self.kwargs)

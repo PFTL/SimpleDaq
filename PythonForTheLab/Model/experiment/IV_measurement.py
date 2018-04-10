@@ -106,7 +106,7 @@ class Experiment:
         self.properties = d
         self.properties['config_file'] = filename
         self.properties['User'] = self.properties['User']['name']
-        self.properties = self.properties['Experiment']
+        # self.properties = self.properties['Experiment']
         # self.properties['Scan']['start'] = Q_(self.properties['Scan']['start'])
         # self.properties['Scan']['stop'] = Q_(self.properties['Scan']['stop'])
         # self.properties['Scan']['step'] = Q_(self.properties['Scan']['step'])
