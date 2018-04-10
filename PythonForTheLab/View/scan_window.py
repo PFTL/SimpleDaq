@@ -10,13 +10,13 @@ and delay between measurements. It has control also over the output port and ran
 import os
 import numpy as np
 import pyqtgraph as pg
-from PyQt4 import QtCore, QtGui, uic
+from PyQt5 import QtCore, QtGui, uic, QtWidgets
 
 from PythonForTheLab import Q_
 from .general_worker import WorkThread
 
 
-class ScanWindow(QtGui.QMainWindow):
+class ScanWindow(QtWidgets.QMainWindow):
     def __init__(self, experiment, parent=None):
         super().__init__(parent)
 
@@ -37,24 +37,33 @@ class ScanWindow(QtGui.QMainWindow):
         self.xdata = np.zeros((0))
         self.p = self.main_plot.plot(self.xdata, self.ydata)
 
-        self.startButton = QtGui.QPushButton('&Start')
-        self.stopButton = QtGui.QPushButton('&Stop')
-        self.buttonBox.addButton(self.startButton, QtGui.QDialogButtonBox.ActionRole)
-        self.buttonBox.addButton(self.stopButton, QtGui.QDialogButtonBox.ActionRole)
+        self.startButton = QtWidgets.QPushButton('&Start')
+        self.stopButton = QtWidgets.QPushButton('&Stop')
+        self.buttonBox.addButton(self.startButton, QtWidgets.QDialogButtonBox.ActionRole)
+        self.buttonBox.addButton(self.stopButton, QtWidgets.QDialogButtonBox.ActionRole)
         self.startButton.clicked.connect(self.start_scan)
         self.stopButton.clicked.connect(self.stop_scan)
 
-        self.outPortLine.setText('{}'.format(self.experiment.properties['Scan']['port_out']))
-        self.outStartLine.setText('{:~}'.format(self.experiment.properties['Scan']['start']))
-        self.outStopLine.setText('{:~}'.format(self.experiment.properties['Scan']['stop']))
-        self.outStepLine.setText('{:~}'.format(self.experiment.properties['Scan']['step']))
+        self.outPortLine.setText('{}'.format(Q_(self.experiment.properties['Scan']['port_out'])))
+        self.outStartLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['start'])))
+        self.outStopLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['stop'])))
+        self.outStepLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['step'])))
 
         self.inPortLine.setText('{}'.format(self.experiment.properties['Scan']['port_in']))
-        self.inDelayLine.setText('{:~}'.format(self.experiment.properties['Scan']['delay']))
+        self.inDelayLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['delay'])))
 
         self.running_scan = False
 
         self.action_Save.triggered.connect(self.save_data)
+
+        menubar = self.menuBar()
+        self.scanMenu = menubar.addMenu('&Scan')
+        self.start_scan_action = QtWidgets.QAction("Start Scan", self)
+        self.start_scan_action.setShortcut('Ctrl+Shift+S')
+        self.start_scan_action.setStatusTip('Start the scan')
+        self.start_scan_action.triggered.connect(self.start_scan)
+        self.scanMenu.addAction(self.start_scan_action)
+
 
     def start_scan(self):
         """Starts the scan as defined in the Experiment model. Gets the parameters from the GUI, i.e.:
@@ -88,7 +97,8 @@ class ScanWindow(QtGui.QMainWindow):
         self.worker_thread.finished.connect(self.worker_thread.deleteLater)
         self.worker_thread.finished.connect(self.stop_scan)
         self.worker_thread.start()
-        self.update_timer.start(self.experiment.properties['Scan']['refresh_time'].m_as('ms'))
+        refresh_time = Q_(self.experiment.properties['Scan']['refresh_time'])
+        self.update_timer.start(refresh_time.m_as('ms'))
 
     def update_scan(self):
         """Updates the plot with the available data in the experiment model. This method is triggered
@@ -124,18 +134,21 @@ class ScanWindow(QtGui.QMainWindow):
         """Saves the data to disk. It opens a Dialog for selecting the directory. The default filename for
         the data is 'scan_data.dat'. The experiment model takes care of handling the saving itself.
         """
-        self.directory = str(QtGui.QFileDialog.getExistingDirectory(self, "Select Directory", self.directory))
+        self.directory = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Select Directory", self.directory))
         filename = 'scan_data.dat'
         file = os.path.join(self.directory, filename)
 
         self.experiment.save_scan_data(file)
 
+    def closeEvent(self, evnt):
+        print('Closing')
+        super().closeEvent(evnt)
 
 
 if __name__ == "__main__":
     import sys
-    from PyQt4.Qt import QApplication
-    from PythonForTheLab.Model.experiment.daq_control import Experiment
+    from PyQt5.QtWidgets import QApplication
+    from PythonForTheLab.Model.experiment.IV_measurement import Experiment
 
     e = Experiment()
     session = {'port_monitor': 1,

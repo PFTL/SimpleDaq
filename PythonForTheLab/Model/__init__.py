@@ -1,1 +1,1 @@
-from .experiment.daq_control import Experiment
+from .experiment.IV_measurement import Experiment

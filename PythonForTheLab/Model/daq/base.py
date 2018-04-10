@@ -7,7 +7,8 @@ This helps keeping the code organized and to maintain downstream compliancy.
 """
 
 class DAQBase(object):
-    def __init__(self):
+    _type = 'DAQModel'
+    def __init__(self, port):
         pass
 
     def idn(self):
@@ -24,3 +25,6 @@ class DAQBase(object):
 
     def set_digital_value(self, port, value):
         pass
+
+    def __str__(self):
+        return "DAQBase"

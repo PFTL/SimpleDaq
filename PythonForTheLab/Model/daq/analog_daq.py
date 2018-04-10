@@ -21,7 +21,7 @@ class AnalogDaq(DAQBase):
 
         :param str port: Port where the device is hooked.
         """
-        super().__init__()
+        super().__init__(port=port)
         self.driver = SimpleDaq(port)
 
     def idn(self):
@@ -38,7 +38,6 @@ class AnalogDaq(DAQBase):
         """
         query_string = 'IN:CH{}'.format(port)
         value_bits = int(self.driver.query(query_string))
-        print("Got value: {}".format(value_bits))
         value_volts = value_bits/1024*Q_('3.3V')
         return value_volts
 

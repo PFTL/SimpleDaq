@@ -10,7 +10,7 @@ dialog and connect custom signals.
 import os
 import numpy as np
 import pyqtgraph as pg
-from PyQt4 import QtCore, QtGui, uic
+from PyQt5 import QtCore, uic, QtWidgets
 
 from PythonForTheLab import Q_
 
@@ -19,7 +19,7 @@ from .general_worker import WorkThread
 from .scan_window import ScanWindow
 
 
-class MonitorWindow(QtGui.QMainWindow):
+class MonitorWindow(QtWidgets.QMainWindow):
     def __init__(self, experiment, parent=None):
         super().__init__(parent)
 
@@ -94,7 +94,7 @@ class MonitorWindow(QtGui.QMainWindow):
 
     # def closeEvent(self, event):
     #     quit_msg = "Are you sure you want to exit the program?"
-    #     reply = QtGui.QMessageBox.question(self, 'Message',
-    #                                        quit_msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+    #     reply = QtWidgets.QMessageBox.question(self, 'Message',
+    #                                        quit_msg, QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
     #     event.accept()
 

@@ -49,6 +49,16 @@ class SimpleDaq():
         """
         return self.query("IDN")
 
+    def get_analog_value(self, port):
+        """Gets the value from an analog port.
+
+        :param int port: Port number to read.
+        :return int: The value read.
+        """
+        query_string = 'IN:CH{}'.format(port)
+        value = int(self.query(query_string))
+        return value
+
     def set_analog_value(self, port, value):
         """ Sets a voltage to an output port.
 
