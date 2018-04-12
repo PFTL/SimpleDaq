@@ -16,4 +16,8 @@ The Device
 ----------
 ![Alt text](Docs/source/_static/PFTL_Real_Device_r.JPG?raw=true "GUI of Python For The Lab")
 
-The objective of PFTL is to control a device to measure the IV curve of an LED. The device is built on an Arduino DUE which has two Digital-to-Analog channels. The program monitors the voltage across a resistance while increasing the voltage applied to an LED. We can change all the parameters of the scan, including the input and output channels, the range, time delay, etc. 
+The objective of PFTL is to control a device to measure the IV curve of an LED. The device is built on an Arduino DUE which has two Digital-to-Analog channels. The program monitors the voltage across a resistance while increasing the voltage applied to an LED. We can change all the parameters of the scan, including the input and output channels, the range, time delay, etc.
+
+Documentation
+-------------
+Aditional documentation can be found at [Read the Docs](http://python-for-the-lab.readthedocs.io/en/latest/)
