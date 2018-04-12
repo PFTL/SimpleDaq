@@ -123,12 +123,9 @@ class ScanWindow(QtWidgets.QMainWindow):
             return
 
         print('Stopping Scan')
-        if self.worker_thread.isRunning():
-            self.worker_thread.quit()
         self.running_scan = False
         self.experiment.stop_scan = True
         self.update_timer.stop()
-        self.update_scan()
 
     def save_data(self):
         """Saves the data to disk. It opens a Dialog for selecting the directory. The default filename for

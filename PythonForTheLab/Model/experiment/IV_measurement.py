@@ -13,6 +13,8 @@ from time import time, sleep
 
 from PythonForTheLab import Q_
 
+import sys
+
 
 class Experiment:
     """Class for performing a measurement of an I-V curve of a light emitting photodiode (LED).
@@ -38,11 +40,6 @@ class Experiment:
         value = self.daq.get_analog_value(port)
         return value
 
-    def read_digital(self, port):
-        """Reads the value of a digital port.
-        """
-        return self.daq.get_digital_value(port)
-
     def do_scan(self):
         """Does a scan of an analog output while recording an analog input. It doesn't take any arguments,
         it relies on having the proper properties set in the dictionary properties['Scan']
@@ -51,15 +48,15 @@ class Experiment:
         start = Q_(self.properties['Scan']['start'])
         stop = Q_(self.properties['Scan']['stop'])
         step = Q_(self.properties['Scan']['step'])
-        port_in = self.properties['Scan']['port_in']
-        port_out = self.properties['Scan']['port_out']
+        channel_in = self.properties['Scan']['channel_in']
+        channel_out = self.properties['Scan']['channel_out']
         delay = Q_(self.properties['Scan']['delay'])
         self.stop_scan = False
 
         units = start.u
         stop = stop.to(units)
         num_points = (stop - start) / step
-        num_points = int(num_points.m_as(''))
+        num_points = round(num_points.m_as(''))
         scan = np.linspace(start, stop, num_points + 1)
         self.xdata_scan = scan
         self.ydata_scan = np.zeros((num_points + 1))
@@ -68,9 +65,9 @@ class Experiment:
             if self.stop_scan:
                 break
             value = value * units
-            self.daq.set_analog_value(port_out, value)
+            self.daq.set_analog_value(channel_out, value)
             sleep(delay.m_as('s'))
-            data = self.read_analog(port_in).m_as('V')
+            data = self.daq.get_analog_value(channel_in).m_as('V')
             self.ydata_scan[i] = data
             i += 1
         self.running_scan = False
@@ -101,65 +98,11 @@ class Experiment:
             filename = 'Config/experiment.yml'
 
         with open(filename, 'r') as f:
-            d = yaml.load(f)
+            data = yaml.load(f)
 
-        self.properties = d
+        self.properties = data
         self.properties['config_file'] = filename
         self.properties['User'] = self.properties['User']['name']
-        # self.properties = self.properties['Experiment']
-        # self.properties['Scan']['start'] = Q_(self.properties['Scan']['start'])
-        # self.properties['Scan']['stop'] = Q_(self.properties['Scan']['stop'])
-        # self.properties['Scan']['step'] = Q_(self.properties['Scan']['step'])
-        # self.properties['Scan']['delay'] = Q_(self.properties['Scan']['delay'])
-        # self.properties['Scan']['refresh_time'] = Q_(self.properties['Scan']['refresh_time'])
-        #
-        # self.properties['Monitor']['time_resolution'] = Q_(self.properties['Monitor']['time_resolution'])
-        # self.properties['Monitor']['refresh_time'] = Q_(self.properties['Monitor']['refresh_time'])
-        # self.properties['Monitor']['total_time'] = Q_(self.properties['Monitor']['total_time'])
-
-    def load_devices(self, filename=None):
-        """Load devices is not used in the Python for the Lab book, but is a handy procedure to work with
-        a more sophisticated logic of devices, sensors and actuators.
-        """
-        if filename is None:
-            if 'devices' in self.properties['init']:
-                filename = self.properties['init']['devices']
-            else:
-                raise Exception("Devices file not defined")
-        with open(filename, 'r') as f:
-            d = yaml.load(f)
-
-        self.devices = d
-
-    def load_sensors(self, filename=None):
-        """Load sensors is not used in the Python for the Lab book, but is a handy procedure to work with
-            a more sophisticated logic of devices, sensors and actuators.
-        """
-        if filename is None:
-            if 'sensors' in self.properties['init']:
-                filename = self.properties['init']['sensors']
-            else:
-                raise Exception("Sensors file not defined")
-
-        with open(filename, 'r') as f:
-            d = yaml.load(f)
-
-        self.sensors = d
-
-    def load_actuators(self, filename=None):
-        """Load devices is not used in the Python for the Lab book, but is a handy procedure to work with
-            a more sophisticated logic of devices, sensors and actuators.
-        """
-        if filename is None:
-            if 'actuators' in self.properties['init']:
-                filename = self.properties['init']['actuators']
-            else:
-                raise Exception("Actuators file not defined")
-
-        with open(filename, 'r') as f:
-            d = yaml.load(f)
-
-        self.actuators = d
 
     def load_daq(self, daq_model=None):
         """ Loads a DAQ Model already initialized or loads from yaml specifications. The DAQ that can
@@ -177,7 +120,7 @@ class Experiment:
                     self.daq = DummyDaq(port)
 
                 elif name == 'RealDaq':
-                    from PythonForTheLab.Model.daq import AnalogDaq
+                    from PythonForTheLab.Model.daq.analog_daq import AnalogDaq
                     self.daq = AnalogDaq(port)
 
                 else:

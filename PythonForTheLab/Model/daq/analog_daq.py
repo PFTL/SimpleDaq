@@ -6,8 +6,8 @@ through a Controller. The experiment in mind is measuring the I-V curve of a dio
 into a separate Model for the experiment may seem redundant, but incredibly useful in bigger projects.
 
 """
+from PythonForTheLab.Controller.simple_daq import SimpleDaq
 
-from PythonForTheLab.Controller import SimpleDaq
 from PythonForTheLab.Model.daq import DAQBase
 from PythonForTheLab import Q_
 
@@ -21,7 +21,6 @@ class AnalogDaq(DAQBase):
 
         :param str port: Port where the device is hooked.
         """
-        super().__init__(port=port)
         self.driver = SimpleDaq(port)
 
     def idn(self):
@@ -31,35 +30,43 @@ class AnalogDaq(DAQBase):
         """
         return self.driver.query('IDN')
 
-    def get_analog_value(self, port):
+    def switch_off_LED(self):
+        pass
+
+    def switch_on_LED(self):
+        pass
+
+    def get_analog_value(self, channel):
         """ Reads the analog value from a specified port.
 
-        :param int port: Port number from which to read the value
+        :param int channel: Port number from which to read the value
         """
-        query_string = 'IN:CH{}'.format(port)
+        query_string = 'IN:CH{}'.format(channel)
         value_bits = int(self.driver.query(query_string))
         value_volts = value_bits/1024*Q_('3.3V')
         return value_volts
 
-    def set_analog_value(self, port, value):
+    def set_analog_value(self, channel, value):
         """ Sets the analog value of a given port.
 
-        :param int port: Port on which to generate the output.
+        :param int channel: Port on which to generate the output.
         :param Quantity value: Voltage to output.
         """
-        value = int(value.m_as('V')/3.3*4095)
-        print("Setting value: {}".format(value))
-        query_string = 'OUT:CH{}:{}'.format(port, value)
+        value = int(value.m_as('V')/3.3*4096)
+        query_string = 'OUT:CH{}:{}'.format(channel, value)
         self.driver.write(query_string)
-        from time import sleep
-        sleep(0.1)
 
 
 if __name__ == "__main__":
     from time import sleep
     d = AnalogDaq('/dev/ttyACM0')
-    sleep(0.5)
     print(d.idn())
-    value = Q_('3.0V')
-    d.set_analog_value(0, value)
-    print('Got value: {:2.2f}'.format(d.get_analog_value(0)))
+    off_voltage = Q_('0V')
+    on_voltage = Q_('3.3V')
+    for i in range(10):
+        d.set_analog_value(0, on_voltage)
+        print(d.get_analog_value(0))
+        sleep(0.5)
+        d.set_analog_value(0, off_voltage)
+        print(d.get_analog_value(0))
+        sleep(0.5)

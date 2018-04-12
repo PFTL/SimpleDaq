@@ -1,6 +1,6 @@
+# coding=utf-8
 """
     start_gui
-
 """
 
 import sys
