@@ -24,20 +24,31 @@ class WorkThread(QtCore.QThread):
     #     self.wait()
 
     def run(self):
-        self.function(*self.args,**self.kwargs)
+        try:
+            self.function(*self.args,**self.kwargs)
+        except Exception as e:
+            print(str(e))
         return
 
 
 if __name__ == '__main__':
     from time import sleep
+    import random
 
     def print_numbers(n=10):
         for i in range(n):
-            sleep(0.1)
+            sleep(random.random()*2)
             print(i)
+
 
     worker_thread = WorkThread(print_numbers, 20)
     worker_thread.finished.connect(worker_thread.deleteLater)
     worker_thread.start()
+    worker_thread2 = WorkThread(print_numbers, 20)
+    worker_thread2.finished.connect(worker_thread.deleteLater)
+    worker_thread2.start()
     sleep(1)
     print('Starting')
+    while worker_thread.isRunning() or worker_thread2.isRunning():
+        sleep(1)
+        print('Still Running')

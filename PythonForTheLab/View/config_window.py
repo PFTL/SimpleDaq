@@ -20,10 +20,10 @@ class ConfigWindow(QtWidgets.QDialog):
         uic.loadUi(os.path.join(p, 'GUI/config_window.ui'), self)
         self.buttonBox.accepted.connect(self.apply_new_values)
 
-        self.portLine.setText('{}'.format(experiment.properties['Monitor']['port']))
-        self.timeResolutionLine.setText('{:~}'.format(experiment.properties['Monitor']['time_resolution']))
-        self.refreshTimeLine.setText('{:~}'.format(experiment.properties['Monitor']['refresh_time']))
-        self.totalTimeLine.setText('{:~}'.format(experiment.properties['Monitor']['total_time']))
+        self.portLine.setText('{}'.format(experiment.properties['Monitor']['channel']))
+        self.timeResolutionLine.setText(experiment.properties['Monitor']['time_resolution'])
+        self.refreshTimeLine.setText(experiment.properties['Monitor']['refresh_time'])
+        self.totalTimeLine.setText(experiment.properties['Monitor']['total_time'])
 
     def apply_new_values(self):
         """Formats the values in the form and emits a custom signal *propertiesChanged* including a

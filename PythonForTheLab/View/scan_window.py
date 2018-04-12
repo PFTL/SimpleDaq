@@ -40,12 +40,12 @@ class ScanWindow(QtWidgets.QMainWindow):
         self.startButton.clicked.connect(self.start_scan)
         self.stopButton.clicked.connect(self.stop_scan)
 
-        self.outPortLine.setText('{}'.format(self.experiment.properties['Scan']['channel_out']))
+        self.outChannelLine.setText('{}'.format(self.experiment.properties['Scan']['channel_out']))
         self.outStartLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['start'])))
         self.outStopLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['stop'])))
         self.outStepLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['step'])))
 
-        self.inPortLine.setText('{}'.format(self.experiment.properties['Scan']['channel_in']))
+        self.inChannelLine.setText('{}'.format(self.experiment.properties['Scan']['channel_in']))
         self.inDelayLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['delay'])))
 
         self.running_scan = False
@@ -74,11 +74,11 @@ class ScanWindow(QtWidgets.QMainWindow):
 
         self.running_scan = True
         self.experiment.properties['Scan'].update({
-            'port_out': int(self.outPortLine.text()),
+            'port_out': int(self.outChannelLine.text()),
             'start': Q_(self.outStartLine.text()),
             'stop': Q_(self.outStopLine.text()),
             'step': Q_(self.outStepLine.text()),
-            'port_in': int(self.inPortLine.text()),
+            'port_in': int(self.inChannelLine.text()),
             'delay': Q_(self.inDelayLine.text()),
         })
         xlabel = self.experiment.properties['Scan']['port_out']

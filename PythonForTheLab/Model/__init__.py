@@ -1,1 +1,1 @@
-from .experiment.IV_measurement import Experiment
+from .experiment import Experiment

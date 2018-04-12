@@ -54,7 +54,7 @@ class MonitorWindow(QtWidgets.QMainWindow):
         """Method triggered when the signal for updating parameters is triggered.
         """
         self.experiment.properties['Monitor'] = props
-        self.delayLine.setText('{:~}'.format(self.experiment.properties['Monitor']['time_resolution']))
+        self.delayLine.setText(self.experiment.properties['Monitor']['time_resolution'])
 
     def start_monitor(self):
         """Starts a  monitor in a separated Worker Thread. There will be a delay for the update of the plot.
@@ -68,7 +68,8 @@ class MonitorWindow(QtWidgets.QMainWindow):
         self.experiment.properties['time_resolution'] = delay
         self.worker_thread = WorkThread(self.experiment.monitor_signal)
         self.worker_thread.start()
-        self.update_timer.start(self.experiment.properties['Monitor']['refresh_time'].m_as('ms'))
+        refresh_time = Q_(self.experiment.properties['Monitor']['refresh_time'])
+        self.update_timer.start(refresh_time.m_as('ms'))
 
     def stop_monitor(self):
         """Stops the monitor and terminates the working thread.

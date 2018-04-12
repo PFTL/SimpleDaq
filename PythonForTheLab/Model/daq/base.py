@@ -17,7 +17,13 @@ class DAQBase(object):
     def get_analog_value(self, port):
         pass
 
-    def set_analog_value(self, port, value):
+    def set_analog_value(self, channel, value):
+        if not isinstance(channel, int):
+            raise Exception('Output channel must be integer')
+        try:
+            value.to('V')
+        except:
+            raise Exception('Output value must be a quantity')
         pass
 
     def get_digital_value(self, port):

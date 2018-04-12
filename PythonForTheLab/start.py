@@ -21,7 +21,6 @@ def start():
     from PythonForTheLab.Model.experiment.IV_measurement import Experiment
     from PythonForTheLab.View.start import start_gui
 
-
     experiment = Experiment()
     experiment.load_config(args[0])
     experiment.load_daq()
@@ -34,7 +33,7 @@ Welcome to Python For The Lab
 -----------------------------
 In order to run the program, you need to supply the path to the config file.
 For example, you can invoke this program as:
-pftl.start Config/experiment.yml
+py4lab Config/experiment.yml
 """
 
 if __name__ == "__main__":

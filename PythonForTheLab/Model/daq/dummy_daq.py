@@ -29,7 +29,7 @@ class DummyDaq(DAQBase):
         :return Quantity: Voltage of the analog output
         """
         self.i += 1
-        return np.sin(self.i/250)*Q_('V')
+        return np.sin(self.i/10)*Q_('V')
 
     def get_digital_value(self, port):
         """Gets a digital input value. It returns either 1 or 0 with a random probability.

@@ -42,41 +42,45 @@ class Experiment:
         """Does a scan of an analog output while recording an analog input. It doesn't take any arguments,
         it relies on having the proper properties set in the dictionary properties['Scan']
         """
+        if self.running_scan:
+            raise Warning('Trying to start a second scan')
+
         self.running_scan = True
+        self.stop_scan = False
+
         start = Q_(self.properties['Scan']['start'])
         stop = Q_(self.properties['Scan']['stop'])
         step = Q_(self.properties['Scan']['step'])
         channel_in = self.properties['Scan']['channel_in']
         channel_out = self.properties['Scan']['channel_out']
         delay = Q_(self.properties['Scan']['delay'])
-        self.stop_scan = False
 
         units = start.u
         stop = stop.to(units)
         num_points = (stop - start) / step
-        num_points = round(num_points.m_as(''))
-        scan = np.linspace(start, stop, num_points + 1)
+        num_points = round(num_points.m_as('')) + 1
+        scan = np.linspace(start, stop, num_points) * units
         self.xdata_scan = scan
-        self.ydata_scan = np.zeros((num_points + 1))
+        self.ydata_scan = np.zeros(num_points) * units
         i = 0
         for value in scan:
             if self.stop_scan:
                 break
-            value = value * units
-            self.daq.set_analog_value(channel_out, value)
+            self.daq.set_analog_value(int(channel_out), value)
             sleep(delay.m_as('s'))
-            data = self.daq.get_analog_value(channel_in).m_as('V')
+            data = self.daq.get_analog_value(int(channel_in))
             self.ydata_scan[i] = data
             i += 1
         self.running_scan = False
+
 
     def monitor_signal(self):
         """Monitors a signal in a specific port. Doesn't take any parameters, it assumes there is
         well-configured dictionary called self.properties['Monitor']
         """
-        delay = self.properties['Monitor']['time_resolution']
-        total_time = self.properties['Monitor']['total_time'].m_as('s')
-        self.xdata = np.zeros((int(total_time / delay.m_as('s'))))
+        delay = Q_(self.properties['Monitor']['time_resolution'])
+        total_time = Q_(self.properties['Monitor']['total_time']).m_as('s')
+        self.xdata = np.zeros((round(total_time / delay.m_as('s'))))
         self.delta_x = delay.m_as('s')
         self.ydata = np.zeros(int(total_time / delay.m_as('s')))
         self.t0 = time()
@@ -130,13 +134,15 @@ class Experiment:
         else:
             self.daq = daq_model
 
-    def save_scan_data(self, file_path):
+    def save_scan_data(self, file_path=None):
         """Saves the data from the scan into the specified file. If the file already exists, it will
         automatically append a number before the extension.
 
         :param str file_path: Full path to the file. It should end with an extension (a dot and 3
         letters).
         """
+        if file_path is None:
+            file_path = self.properties['Save_File']['filename']
         i = 0
         ext = file_path[-4:]  # Get the file extension (it assumes is a dot and three letters)
         filename = file_path[:-4]
@@ -145,8 +151,10 @@ class Experiment:
             i += 1
 
         header = "# Data saved by Python For the Lab\n"
-        header += "# First Column X-Axis port: {}\n".format(self.properties['Scan']['port_out'])
-        header += "# Second Column Y-Axis port: {}\n".format(self.properties['Scan']['port_in'])
+        header += "# First Column X-Axis channel: {}, units: {}\n".format(
+                self.properties['Scan']['channel_out'], self.xdata_scan[0].u)
+        header += "# Second Column Y-Axis channel: {}, units: {}\n".format(
+                self.properties['Scan']['channel_in'], self.ydata_scan[0].u)
 
         with open(file_path, 'wb') as f:
             f.write(header.encode('ascii'))
