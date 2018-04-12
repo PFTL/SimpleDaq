@@ -37,10 +37,6 @@ class ScanWindow(QtWidgets.QMainWindow):
         self.xdata = np.zeros((0))
         self.p = self.main_plot.plot(self.xdata, self.ydata)
 
-        self.startButton = QtWidgets.QPushButton('&Start')
-        self.stopButton = QtWidgets.QPushButton('&Stop')
-        self.buttonBox.addButton(self.startButton, QtWidgets.QDialogButtonBox.ActionRole)
-        self.buttonBox.addButton(self.stopButton, QtWidgets.QDialogButtonBox.ActionRole)
         self.startButton.clicked.connect(self.start_scan)
         self.stopButton.clicked.connect(self.stop_scan)
 
