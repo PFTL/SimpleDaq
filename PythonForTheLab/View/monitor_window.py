@@ -92,9 +92,9 @@ class MonitorWindow(QtWidgets.QMainWindow):
     def update_value(self):
         pass
 
-    # def closeEvent(self, event):
-    #     quit_msg = "Are you sure you want to exit the program?"
-    #     reply = QtWidgets.QMessageBox.question(self, 'Message',
-    #                                        quit_msg, QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
-    #     event.accept()
+    def closeEvent(self, event):
+        quit_msg = "Are you sure you want to exit the program?"
+        reply = QtWidgets.QMessageBox.question(self, 'Message',
+                                           quit_msg, QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
+        event.accept()
 

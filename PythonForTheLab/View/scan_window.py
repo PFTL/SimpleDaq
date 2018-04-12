@@ -44,12 +44,12 @@ class ScanWindow(QtWidgets.QMainWindow):
         self.startButton.clicked.connect(self.start_scan)
         self.stopButton.clicked.connect(self.stop_scan)
 
-        self.outPortLine.setText('{}'.format(Q_(self.experiment.properties['Scan']['port_out'])))
+        self.outPortLine.setText('{}'.format(self.experiment.properties['Scan']['channel_out']))
         self.outStartLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['start'])))
         self.outStopLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['stop'])))
         self.outStepLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['step'])))
 
-        self.inPortLine.setText('{}'.format(self.experiment.properties['Scan']['port_in']))
+        self.inPortLine.setText('{}'.format(self.experiment.properties['Scan']['channel_in']))
         self.inDelayLine.setText('{:~}'.format(Q_(self.experiment.properties['Scan']['delay'])))
 
         self.running_scan = False
@@ -97,7 +97,7 @@ class ScanWindow(QtWidgets.QMainWindow):
         self.worker_thread.finished.connect(self.worker_thread.deleteLater)
         self.worker_thread.finished.connect(self.stop_scan)
         self.worker_thread.start()
-        refresh_time = Q_(self.experiment.properties['Scan']['refresh_time'])
+        refresh_time = Q_(self.experiment.properties['GUI']['refresh_time'])
         self.update_timer.start(refresh_time.m_as('ms'))
 
     def update_scan(self):
@@ -126,6 +126,10 @@ class ScanWindow(QtWidgets.QMainWindow):
         self.running_scan = False
         self.experiment.stop_scan = True
         self.update_timer.stop()
+        self.xdata = self.experiment.xdata_scan
+        self.ydata = self.experiment.ydata_scan
+
+        self.p.setData(self.xdata, self.ydata)
 
     def save_data(self):
         """Saves the data to disk. It opens a Dialog for selecting the directory. The default filename for
