@@ -13,8 +13,6 @@ from time import time, sleep
 
 from PythonForTheLab import Q_
 
-import sys
-
 
 class Experiment:
     """Class for performing a measurement of an I-V curve of a light emitting photodiode (LED).

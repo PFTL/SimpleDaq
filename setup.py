@@ -11,4 +11,9 @@ setup(
     author_email='aquiles@uetke.com',
     description='',
     test_suite='testsuite.testsuite',
+    entry_points={
+        'console_scripts':[
+            'pftl.start = PythonForTheLab.start:start'
+        ],
+    },
 )

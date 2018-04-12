@@ -32,10 +32,3 @@ The objective of PFTL is to control a device to measure the IV curve of an LED. 
    PythonForTheLab.View
 
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
