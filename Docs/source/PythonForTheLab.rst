@@ -1,6 +1,12 @@
 PythonForTheLab package
 =======================
 
+.. automodule:: PythonForTheLab.start
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
 Subpackages
 -----------
 
