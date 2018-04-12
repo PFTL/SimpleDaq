@@ -13,7 +13,15 @@ setup(
     test_suite='testsuite.testsuite',
     entry_points={
         'console_scripts':[
-            'pftl.start = PythonForTheLab.start:start'
+            'py4lab = PythonForTheLab.start:start'
         ],
     },
+    install_requires=[
+        'pint',
+        'PyQt5',
+        'pyqtgraph',
+        'numpy',
+        'PyYAML',
+        'pyserial',
+    ],
 )

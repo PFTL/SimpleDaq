@@ -15,7 +15,7 @@ Scan:
   delay: 100ms
 
 Save_File:
-  filename: data_
+  filename: data.dat # Files won't be overwritten, but renamed as data_001.dat, etc.
 
 GUI:
   refresh_time: 100ms
