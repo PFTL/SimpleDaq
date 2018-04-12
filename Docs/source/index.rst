@@ -4,7 +4,7 @@ Python for the Lab (PFTL) is a simple program to acquire data from a DAQ device.
 
 PFTL was developed by `Uetke <https://www.uetke.com>`_ to explain to researchers, through simple examples, what can be achieved quickly with little programming knowledge. The ultimate goal of this project is to serve as a reference place for people interested in instrumentation written in Python.
 
-You can find the code of this package at `Github <https://github.com/PFTL/SimpleDaq/>`_, the documentation is hosted at `Read The Docs <https://readthedocs.org/projects/python-for-the-lab/>`_. If you are interested in learning more about Python For The Lab, you can check `Uetke's courses<https://uetke.com/courses/>`_.
+You can find the code of this package at `Github <https://github.com/PFTL/SimpleDaq/>`_, the documentation is hosted at `Read The Docs <https://readthedocs.org/projects/python-for-the-lab/>`_. If you are interested in learning more about Python For The Lab, you can check `Uetke's courses <https://uetke.com/courses/>`_.
 
 The GUI
 -------

@@ -1,5 +1,7 @@
 Welcome to Python For The Lab's documentation!
 ==============================================
+![Docs badge](http://python-for-the-lab.readthedocs.io/en/latest/?badge=latest)
+
 Python for the Lab (PFTL) is a simple program to acquire data from a DAQ device. It is designed following the MVC design pattern, splitting the code into Controllers for defining drivers, Models for specifying the logic on how to use devices and perform an experiment. The View is where all the GUI is developed.
 
 PFTL was developed by [Uetke](https://www.uetke.com) to explain to researchers, through simple examples, what can be achieved quickly with little programming knowledge. The ultimate goal of this project is to serve as a reference place for people interested in instrumentation written in Python.

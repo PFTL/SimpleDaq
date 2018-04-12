@@ -1,6 +1,15 @@
 # coding=utf-8
 """
-    start_gui
+Start GUI
+=========
+
+Convenience function to wrap the initialization of a window. The Experiment class should be created outside and passed as argument.
+
+    >>> experiment = Experiment()
+    >>> experiment.load_config('filename')
+    >>> experiment.load_daq()
+    >>> start_gui(experiment)
+
 """
 import sys
 from PyQt5.QtWidgets import QApplication

@@ -1,8 +1,19 @@
+"""
+Start Function
+==============
+After installing Python for the Lab it is possible to start it directly from within the command line using `pftl.start`. It takes one argument that is the path to the configuration file.
+
+    $ pftl.start Config/experiment.yml
+
+"""
+
 import sys
 from .View.start import start_gui
 
 
 def start():
+    """Starts the GUI for the experiment using the config file specified as system argument.
+    """
     args = sys.argv[1:]
     if len(args) != 1:
         print(help_message)
