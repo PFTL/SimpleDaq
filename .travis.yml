@@ -8,6 +8,6 @@ branches:
     - master
 
 install:
-    - pip install . --use-mirrors
+    - pip install -r requirements_min.txt
 
 script: python setup.py test
