@@ -8,7 +8,6 @@ After installing Python for the Lab it is possible to start it directly from wit
 """
 
 import sys
-from .View.start import start_gui
 
 
 def start():
@@ -17,9 +16,11 @@ def start():
     args = sys.argv[1:]
     if len(args) != 1:
         print(help_message)
+        return
 
     from PythonForTheLab.Model.experiment.IV_measurement import Experiment
-    from PythonForTheLab.View.scan_window import ScanWindow
+    from PythonForTheLab.View.start import start_gui
+
 
     experiment = Experiment()
     experiment.load_config(args[0])
@@ -35,3 +36,6 @@ In order to run the program, you need to supply the path to the config file.
 For example, you can invoke this program as:
 pftl.start Config/experiment.yml
 """
+
+if __name__ == "__main__":
+    start()
