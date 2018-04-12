@@ -3,7 +3,7 @@ User:
   role: Teacher
 
 DAQ:
-  name: Arduino
+  name: DummyDaq
   port: /dev/ttyACM0
 
 Scan:
@@ -16,3 +16,6 @@ Scan:
 
 Save_File:
   filename: data_
+
+GUI:
+  refresh_time: 100ms
