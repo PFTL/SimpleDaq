@@ -1,6 +1,6 @@
 Welcome to Python For The Lab's documentation!
 ==============================================
-![Docs badge](http://python-for-the-lab.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/python-for-the-lab/badge/?version=latest)](http://python-for-the-lab.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/PFTL/SimpleDaq.svg?branch=master)](https://travis-ci.org/PFTL/SimpleDaq) [![Coverage Status](https://coveralls.io/repos/github/PFTL/SimpleDaq/badge.svg?branch=master)](https://coveralls.io/github/PFTL/SimpleDaq?branch=master)
 
 Python for the Lab (PFTL) is a simple program to acquire data from a DAQ device. It is designed following the MVC design pattern, splitting the code into Controllers for defining drivers, Models for specifying the logic on how to use devices and perform an experiment. The View is where all the GUI is developed.
 
