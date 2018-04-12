@@ -1,24 +1,18 @@
 User:
- name: me
-init:
-  devices: Config/devices.yml
+  name: Aquiles
+  role: Teacher
 
 DAQ:
-  name: DummyDaq
-  port: /dev/ttyACM1
-  model: v1.0
+  name: Arduino
+  port: /dev/ttyACM0
 
 Scan:
-  port_in: 0
-  port_out: 0
-  start: 0.V
+  start: 0V
   stop: 3.3V
-  step: 1.V
-  delay: 200ms
-  refresh_time: 100ms
+  step: 100mV
+  channel_out: 0
+  channel_in: 0
+  delay: 100ms
 
-Monitor:
-  port: 1
-  time_resolution: 1ms
-  refresh_time: 100ms
-  total_time: 15s
+Save_File:
+  filename: data_

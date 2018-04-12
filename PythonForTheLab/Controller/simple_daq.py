@@ -65,7 +65,6 @@ class SimpleDaq():
         :param int port: Port number. Range depends on device
         :param Quantity value: The output value in Volts.
         """
-
         value = int(value.m_as('V')/3.3*4095)
         write_string = 'OUT:CH{}:{}'.format(port, value)
         self.write(write_string)
@@ -95,6 +94,7 @@ class SimpleDaq():
 
         msg = (message + self.DEFAULTS['write_termination']).encode(self.DEFAULTS['encoding'])
         self.rsc.write(msg)
+        sleep(0.1)
 
     def read(self):
         """ Reads from the device using the DEFAUTLS end of line and encoding.
@@ -114,12 +114,16 @@ class SimpleDaq():
 
         return line.decode(self.DEFAULTS['encoding'])
 
-
 if __name__ == "__main__":
+    import pint
+    ur = pint.UnitRegistry()
+
     d = SimpleDaq('/dev/ttyACM0')
     # input('Waiting to ready')
     print(d.query('IDN'))
-    d.write('OUT:CH0:4000')
+    #d.write('OUT:CH0:4000')
     input('Press to read value')
     print(d.query('IN:CH0'))
+    out_value = ur('3.0V')
+    d.set_analog_value(0, out_value)
     d.finalize()

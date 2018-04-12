@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1423</width>
-    <height>1394</height>
+    <width>846</width>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -145,6 +145,16 @@
      </widget>
     </item>
     <item>
+     <widget class="QPushButton" name="startButton">
+      <property name="text">
+       <string>Start</string>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QDialogButtonBox" name="buttonBox">
       <property name="standardButtons">
        <set>QDialogButtonBox::NoButton</set>
@@ -152,7 +162,9 @@
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="plotWidget" native="true"/>
+     <widget class="QWidget" name="plotWidget" native="true">
+      <zorder>groupBox_2</zorder>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -161,8 +173,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1423</width>
-     <height>42</height>
+     <width>846</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
