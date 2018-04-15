@@ -27,9 +27,11 @@ class Experiment:
         self.xdata_scan = np.zeros(0)
         self.ydata_scan = np.zeros(0)
         self.running_scan = False
+        self.stop_scan = False
         self.delta_x = 0
+        self.t0 = time()
 
-    def read_analog(self, port):
+    def read_analog(self, port: int):
         """Re-implements the function as provided by the model.
 
         :param int port: Port to read
@@ -45,16 +47,12 @@ class Experiment:
         if self.running_scan:
             raise Warning('Trying to start a second scan')
 
-        self.running_scan = True
-        self.stop_scan = False
-
         start = Q_(self.properties['Scan']['start'])
         stop = Q_(self.properties['Scan']['stop'])
         step = Q_(self.properties['Scan']['step'])
         channel_in = self.properties['Scan']['channel_in']
         channel_out = self.properties['Scan']['channel_out']
         delay = Q_(self.properties['Scan']['delay'])
-
         units = start.u
         stop = stop.to(units)
         num_points = (stop - start) / step
@@ -63,16 +61,16 @@ class Experiment:
         self.xdata_scan = scan
         self.ydata_scan = np.zeros(num_points) * units
         i = 0
+        self.running_scan = True
+        self.stop_scan = False
         for value in scan:
             if self.stop_scan:
                 break
             self.daq.set_analog_value(int(channel_out), value)
             sleep(delay.m_as('s'))
-            data = self.daq.get_analog_value(int(channel_in))
-            self.ydata_scan[i] = data
+            self.ydata_scan[i] = self.daq.get_analog_value(int(channel_in))
             i += 1
         self.running_scan = False
-
 
     def monitor_signal(self):
         """Monitors a signal in a specific port. Doesn't take any parameters, it assumes there is
@@ -100,9 +98,9 @@ class Experiment:
             filename = 'Config/experiment.yml'
 
         with open(filename, 'r') as f:
-            data = yaml.load(f)
+            params = yaml.load(f)
 
-        self.properties = data
+        self.properties = params
         self.properties['config_file'] = filename
         self.properties['User'] = self.properties['User']['name']
 
@@ -158,7 +156,12 @@ class Experiment:
 
         with open(file_path, 'wb') as f:
             f.write(header.encode('ascii'))
-            data = np.vstack((self.xdata_scan, self.ydata_scan))
-            np.savetxt(f, data.T, fmt='%7.5f')
+            scan_data = np.vstack((self.xdata_scan, self.ydata_scan))
+            np.savetxt(f, scan_data.T, fmt='%7.5f')
 
         print('Data saved to {}'.format(file_path))
+
+
+if __name__ == "__main__":
+    e = Experiment()
+    data = e.read_analog(1)
