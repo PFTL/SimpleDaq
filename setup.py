@@ -6,7 +6,7 @@ setup(
     packages=['PythonForTheLab', 'PythonForTheLab.View', 'PythonForTheLab.Model', 'PythonForTheLab.Model.daq',
               'PythonForTheLab.Model.experiment', 'PythonForTheLab.Controller'],
     url='https://github.com/PFTL/SimpleDaq',
-    license='MIT',
+    license='GPLv3',
     author='Aquiles Carattino',
     author_email='aquiles@uetke.com',
     description='',

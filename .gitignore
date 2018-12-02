@@ -4,3 +4,4 @@ __cache__/
 .vscode/
 build/
 *.egg-info/
+dist/
