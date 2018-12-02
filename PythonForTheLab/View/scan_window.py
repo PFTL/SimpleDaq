@@ -74,16 +74,16 @@ class ScanWindow(QtWidgets.QMainWindow):
 
         self.running_scan = True
         self.experiment.properties['Scan'].update({
-            'port_out': int(self.outChannelLine.text()),
+            'channel_out': int(self.outChannelLine.text()),
             'start': Q_(self.outStartLine.text()),
             'stop': Q_(self.outStopLine.text()),
             'step': Q_(self.outStepLine.text()),
-            'port_in': int(self.inChannelLine.text()),
+            'channel_in': int(self.inChannelLine.text()),
             'delay': Q_(self.inDelayLine.text()),
         })
-        xlabel = self.experiment.properties['Scan']['port_out']
+        xlabel = self.experiment.properties['Scan']['channel_out']
         units = self.experiment.properties['Scan']['start'].u
-        ylabel = self.experiment.properties['Scan']['port_in']
+        ylabel = self.experiment.properties['Scan']['channel_in']
 
         self.main_plot.setLabel('bottom', 'Port: {}'.format(xlabel),
                                 units=units)

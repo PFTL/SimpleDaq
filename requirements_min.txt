@@ -1,7 +1,6 @@
-numpy==1.14.2
-Pint==0.8.1
-PyQt5==5.10.1
-pyqtgraph==0.10.0
-pyserial==3.4
-PyYAML==3.12
-sip==4.19.8
+numpy
+Pint
+PyQt5
+pyqtgraph
+pyserial
+PyYAML
