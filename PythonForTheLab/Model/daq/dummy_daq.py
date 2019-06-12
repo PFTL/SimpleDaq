@@ -39,6 +39,3 @@ class DummyDaq(DAQBase):
         :return bool: Value of the fake digital input port.
         """
         return np.random.random(1) > 0.5
-
-    def __str__(self):
-        return "DummyDaq"
