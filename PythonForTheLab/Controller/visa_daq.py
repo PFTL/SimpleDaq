@@ -12,6 +12,7 @@ from time import sleep, time
 
 rm = visa.ResourceManager('@py')
 
+
 class SimpleDaq():
     """ Controller for the serial devices that ships with Python for the Lab.
     """
@@ -65,7 +66,7 @@ if __name__ == "__main__":
     import pint
     ur = pint.UnitRegistry()
 
-    d = SimpleDaq('COM4')
+    d = SimpleDaq('1')
     # input('Waiting to ready')
     print(d.idn())
     #d.write('OUT:CH0:4000')
