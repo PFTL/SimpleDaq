@@ -31,8 +31,8 @@ void loop() {
   }
   if (isData) {
     isData = false;
-    if (Comm.startsWith("IDN\n")) {
-      Serial.print("General DAQ Device built by Uetke. v.1.2017");
+    if (Comm.startsWith("IDN")) {
+      Serial.print("General DAQ Device built by Uetke. v.1.2019");
       Serial.print("\n");
     }
     else if (Comm.startsWith("OUT")) {
