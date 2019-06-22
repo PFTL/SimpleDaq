@@ -33,4 +33,4 @@ class DAQBase(object):
         pass
 
     def __str__(self):
-        return "DAQBase"
+        return self.__class__.__name__

@@ -1,4 +1,4 @@
-# coding=utf-8
+ # coding=utf-8
 """
 Experiment Model
 ================
@@ -123,6 +123,9 @@ class Experiment:
                     from PythonForTheLab.Model.daq.analog_daq import AnalogDaq
                     self.daq = AnalogDaq(port)
 
+                elif name == 'VisaDaq':
+                    from PythonForTheLab.Model.daq.visa_daq import AnalogDaq
+                    self.daq = AnalogDaq(port)
                 else:
                     filename = self.properties['config_file']
                     raise Exception('The daq specified in {} does not exist in this program'.format(filename))
