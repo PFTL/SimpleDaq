@@ -3,13 +3,13 @@ User:
   role: Teacher
 
 DAQ:
-  name: DummyDaq
+  name: RealDaq
   port: /dev/ttyACM0
 
 Scan:
   start: 0V
-  stop: 3.3V
-  step: 100mV
+  stop: 3.2V
+  step: 400mV
   channel_out: 0
   channel_in: 0
   delay: 100ms

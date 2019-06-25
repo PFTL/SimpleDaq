@@ -65,6 +65,9 @@ void loop() {
         delay(300);
       }
     }
+    else {
+      Serial.print("Command not known\n");
+    }
     Comm = "";
   }
   delay(20);

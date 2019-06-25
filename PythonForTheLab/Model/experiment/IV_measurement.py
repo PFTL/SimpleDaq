@@ -98,7 +98,7 @@ class Experiment:
             filename = 'Config/experiment.yml'
 
         with open(filename, 'r') as f:
-            params = yaml.load(f)
+            params = yaml.load(f, Loader=yaml.FullLoader)
 
         self.properties = params
         self.properties['config_file'] = filename
