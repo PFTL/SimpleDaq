@@ -19,6 +19,8 @@ from .general_worker import WorkThread
 from .scan_window import ScanWindow
 
 
+
+
 class MonitorWindow(QtWidgets.QMainWindow):
     def __init__(self, experiment, parent=None):
         super().__init__(parent)
@@ -30,6 +32,8 @@ class MonitorWindow(QtWidgets.QMainWindow):
 
         self.main_plot = pg.PlotWidget()
         self.main_plot.setLabel('bottom', 'Time', units='s')
+
+        layout = QVBoxLayout()
 
         self.verticalLayout.addWidget(self.main_plot)
 
