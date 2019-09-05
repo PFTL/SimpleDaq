@@ -10,7 +10,7 @@ int sensorPin = A0;    // select the input pin for the potentiometer
 int sensorValue;
 bool isData = false;
 int i = 0;
-int ledPin = 13;
+
 
 void setup() {
   Serial.begin(9600);
@@ -18,7 +18,13 @@ void setup() {
   analogWriteResolution(12);
   analogWrite(DAC0, 0);
   analogWrite(DAC1, 0);
-  pinMode(ledPin, OUTPUT);
+  for (i = 2; i <= 13; i++) {
+    pinMode(i, OUTPUT);
+  }
+  for (i = 22; i <= 53; i++) {
+    pinMode(i, OUTPUT);
+  }
+  Serial.flush();
 }
 
 void loop() {
@@ -49,6 +55,7 @@ void loop() {
       }
       val = tempValue.toInt();
       analogWrite(output, val);
+      Serial.println(val);
     }
     else if (Comm.startsWith("IN")) {
       channel = Comm[5];
@@ -57,12 +64,18 @@ void loop() {
       Serial.print(val);
       Serial.print("\n");
     }
-    else if (Comm.startsWith("DI")){
-      for(i = 0; i < 10; i++){
-        digitalWrite(ledPin, HIGH);
-        delay(300);
-        digitalWrite(ledPin, LOW);
-        delay(300);
+    else if (Comm.startsWith("DI")) {
+      channel = Comm.substring(5, 7);
+      input = channel.toInt();
+      tempValue = Comm[8];
+      val = tempValue.toInt();
+      if (val == 0) {
+        digitalWrite(input, LOW);
+        Serial.println("Setting to LOW");
+      }
+      else if (val == 1) {
+        digitalWrite(input, HIGH);
+        Serial.println("Setting to HIGH");
       }
     }
     else {
