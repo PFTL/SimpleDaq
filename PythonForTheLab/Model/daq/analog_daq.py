@@ -42,7 +42,8 @@ class AnalogDaq(DAQBase):
         :param int channel: Port number from which to read the value
         """
         query_string = 'IN:CH{}'.format(channel)
-        value_bits = int(self.driver.query(query_string))
+        val = self.driver.query(query_string)
+        value_bits = int(val)
         value_volts = value_bits/1024*Q_('3.3V')
         return value_volts
 
@@ -54,7 +55,7 @@ class AnalogDaq(DAQBase):
         """
         value = int(value.m_as('V')/3.3*4096)
         query_string = 'OUT:CH{}:{}'.format(channel, value)
-        self.driver.write(query_string)
+        self.driver.query(query_string)
 
 
 if __name__ == "__main__":
