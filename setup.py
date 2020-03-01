@@ -26,7 +26,7 @@ setup(
     },
     install_requires=[
         'pint',
-        'pyqt5==5.10.1',
+        'pyqt5',
         'pyqtgraph',
         'numpy',
         'PyYAML',
