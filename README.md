@@ -10,13 +10,13 @@ You can find the code of this package at [Github](https://github.com/PFTL/Simple
 
 The GUI
 -------
-![Alt text](Docs/source/_static/GUI_Python_For_The_Lab.png?raw=true "GUI of Python For The Lab")
+![Alt text](docs/source/_static/GUI_Python_For_The_Lab.png?raw=true "GUI of Python For The Lab")
 
 If you follow the Python for the Lab course, the GUI is going to be the last step. You perform an analog output scan while acquiring the voltage on a different port. This will allow the users to acquire an I-V scan or any other voltage-dependent measurement.
 
 The Device
 ----------
-![Alt text](Docs/source/_static/PFTL_Real_Device_r.JPG?raw=true "GUI of Python For The Lab")
+![Alt text](docs/source/_static/PFTL_Real_Device_r.JPG?raw=true "GUI of Python For The Lab")
 
 The objective of PFTL is to control a device to measure the IV curve of an LED. The device is built on an Arduino DUE which has two Digital-to-Analog channels. The program monitors the voltage across a resistance while increasing the voltage applied to an LED. We can change all the parameters of the scan, including the input and output channels, the range, time delay, etc.
 
