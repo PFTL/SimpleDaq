@@ -57,7 +57,7 @@ class Experiment:
         stop = stop.to(units)
         num_points = (stop - start) / step
         num_points = round(num_points.m_as('')) + 1
-        scan = np.linspace(start, stop, num_points) * units
+        scan = np.linspace(start, stop, num_points)
         self.xdata_scan = scan
         self.ydata_scan = np.zeros(num_points) * units
         i = 0
@@ -67,9 +67,9 @@ class Experiment:
             if self.stop_scan:
                 break
             self.daq.set_analog_value(int(channel_out), value)
-            sleep(delay.m_as('s'))
             self.ydata_scan[i] = self.daq.get_analog_value(int(channel_in))
             i += 1
+            sleep(delay.m_as('s'))
         self.running_scan = False
 
     def monitor_signal(self):

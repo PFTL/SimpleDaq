@@ -4,8 +4,8 @@ with open("README.md") as f:
     long_description = f.read()
 
 setup(
-    name='PythonForTheLab',
-    version="0.1.1",
+    name='py4lab',
+    version="0.1.2",
     packages=find_packages(),
     url='https://github.com/PFTL/SimpleDaq',
     license='GPLv3',
@@ -18,6 +18,7 @@ setup(
     author_email='aquiles@uetke.com',
     description='Code for Python for the Lab Workshop',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     test_suite='testsuite.testsuite',
     entry_points={
         'console_scripts': [
@@ -26,7 +27,7 @@ setup(
     },
     install_requires=[
         'pint',
-        'pyqt5==5.10.1',
+        'pyqt5',
         'pyqtgraph',
         'numpy',
         'PyYAML',
