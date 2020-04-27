@@ -1,3 +1,7 @@
+This repository has been superseeded by [Py4Lab](https://github.com/PFTL/py4lab). The new repository follows closely the contents of [the book](https://www.pythonforthelab.com/books/), which is [available here](https://gum.co/kgSsv). 
+
+This repository is **archived** for historical reasons. 
+
 Welcome to Python For The Lab's documentation!
 ==============================================
 [![Documentation Status](https://readthedocs.org/projects/python-for-the-lab/badge/?version=latest)](http://python-for-the-lab.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/PFTL/SimpleDaq.svg?branch=master)](https://travis-ci.org/PFTL/SimpleDaq) [![Coverage Status](https://coveralls.io/repos/github/PFTL/SimpleDaq/badge.svg?branch=master)](https://coveralls.io/github/PFTL/SimpleDaq?branch=master)
